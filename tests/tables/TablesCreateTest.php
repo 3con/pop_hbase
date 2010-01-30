@@ -9,22 +9,33 @@
 require_once dirname(__FILE__).'/../PopHbaseTestCase.php';
 
 /**
- * Test the add method.
+ * Test the PopHbaseTables->create method.
  * 
  * @author		David Worms info(at)adaltas.com
  *
  */
 class TablesCreateTest extends PopHbaseTestCase{
-	public function testCount(){
+	public function testArg1StringArg2String(){
 		$hbase = $this->hbase;
-		// Test with no database
+		// Test with no table
 		$tables = $hbase->tables();
-		$this->assertSame(0,count($tables));
-		// Test with one database
-		$hbase->tables->create('pop_hbase','my_column');
-		//$hbase->connection->disconnect();
 		$this->assertSame(1,count($tables));
+		// Test with one table
+		$hbase->tables->create('pop_hbase_create','my_column');
+		$this->assertSame(2,count($tables));
 		$this->assertTrue($tables->current() instanceof PopHbaseTable);
-		$hbase->tables->delete('pop_hbase');
+		$hbase->tables->delete('pop_hbase_create');
+	}
+	public function testInvalidArguments(){
+		$hbase = $this->hbase;
+		try{
+			$hbase->tables->create();
+		}catch(InvalidArgumentException $e){}
+		$this->assertSame('Missing table schema definition',$e->getMessage());
+		$hbase = $this->hbase;
+		try{
+			$hbase->tables->create('pop_hbase_create');
+		}catch(InvalidArgumentException $e){}
+		$this->assertSame('Missing at least one column schema definition',$e->getMessage());
 	}
 }

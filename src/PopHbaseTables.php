@@ -20,39 +20,39 @@ class PopHbaseTables extends PopHbaseIterator{
 		$this->__data = array();
 	}
 	
+	/**
+	 * Provide a shortcut to the "table" method.
+	 * 
+	 * Usage
+	 *     assert($hbase->tables->{'my_table'} instanceof PopHbaseTable);
+	 * 
+	 */
+	public function __get($table){
+		return $this->table($table);
+	}
+	
 //	public function __unset($property){
 //		unset($this->__data['data'][$property]);
-//		echo '__unset__ '.count($this->__data['data']).' '.$this->key()."\n";
 //	}
 	
-	public function add($table){
-		$body = $this->hbase->request->put('/'.$table)->body;
-		$this->reload();
-		return $this;
-	}
-	
-	public function delete($table){
-		$body = $this->hbase->request->delete($table.'/schema');
-		$this->reload();
-		return $this;
-	}
-	
 	public function reload(){
-		echo 'reload'."\n";
 		unset($this->__data['data']);
+		unset($this->__data['loaded']);
 	}
 	
 	public function load(){
-		if(isset($this->__data['data'])){
+		if(isset($this->__data['data'])&&isset($this->__data['loaded'])){
 			return $this;
 		}
 		$tables = $this->hbase->request->get('/')->body;
 		$this->__data['data'] = array();
+		$this->__data['loaded'] = array();
 		if(is_null($tables)){ // No table
 			return $this;
 		}
 		foreach($tables['table'] as $table){
 			$this->__data['data'][$table['name']] = new PopHbaseTable($this->hbase,$table['name']);
+			$this->__data['loaded'][$table['name']] = true;
 		}
 		return $this;
 	}
@@ -64,14 +64,14 @@ class PopHbaseTables extends PopHbaseIterator{
 	 * arguments describle column families.
 	 * 
 	 * Usage
-	 *     $hbase->tables->add(
+	 *     $hbase->tables->create(
 	 *         'table_name',
 	 *         'column_1',
 	 *         array('name'=>'column_2'),
 	 *         array('NAME'=>'column_3'),
 	 *         array('@NAME'=>'column_4',...);
 	 */
-	public function create($table){
+	public function create(){
 		$args = func_get_args();
 		if(count($args)===0){
 			throw new InvalidArgumentException('Missing table schema definition');
@@ -102,6 +102,9 @@ class PopHbaseTables extends PopHbaseIterator{
 				break;
 			default:
 				throw new InvalidArgumentException('Table schema definition not correctly defined: "'.PurLang::toString($table).'"');
+		}
+		if(count($args)===0){
+			throw new InvalidArgumentException('Missing at least one column schema definition');
 		}
 		$schema['ColumnSchema'] = array();
 		foreach($args as $arg){
@@ -135,22 +138,61 @@ class PopHbaseTables extends PopHbaseIterator{
 				throw new InvalidArgumentException('Column schema definition not correctly defined: "'.PurLang::toString($table).'"');
 			}
 		}
-		//echo json_encode($schema)."\n";
-		echo '----------------------------- start'."\n";
 		$this->hbase->request->put($schema['name'].'/schema',$schema);
-		if($this->hbase->options['alive']){
-		echo '-- 1 '."\n";
-			// For some reason, connection need to be reset 
-			// for count to return correct number of tables
-//			sleep(2);
-			//$this->hbase->connection->disconnect();
-//			$this->hbase->connection->disconnect();
-//			$this->hbase->connection->disconnect();
-		echo '-- 2 '."\n";
-		}
-//		$this->hbase->connection->disconnect();
-		echo '----------------------------- stop'."\n";
 		$this->reload();
+	}
+	
+	/**
+	 * Delete a table from an HBase server.
+	 * 
+	 * Note, manipulate with care since datas are not recoverable.
+	 * 
+	 * Usage
+	 *     $hbase->tables->delete('table_name');
+	 */
+	public function delete($table){
+		$body = $this->hbase->request->delete($table.'/schema');
+		$this->reload();
+		return $this;
+	}
+	
+	/**
+	 * Check wether a table exist in HBase.
+	 */
+	public function exists($table){
+		foreach($this as $t){
+			if($t->name==$table) return isset($this->__data['loaded'][$table]);
+		}
+		return false;
+	}
+	
+	/**
+	 * List the table names present in HBase.
+	 */
+	public function names(){
+		$tables = array();
+		foreach($this as $table){
+			if(isset($this->__data['loaded'][$table->name])){
+				$tables[] = $table->name;
+			}
+		}
+		return $tables;
+	}
+	
+	/**
+	 * Return a PopHbaseTable instance.
+	 * 
+	 * If the same table is requested twice, the same instance is returned.
+	 * 
+	 * Usage
+	 *     assert($hbase->tables->table('my_table') instanceof PopHbaseTable);
+	 * 
+	 */
+	public function table($table){
+		if(!isset($this->__data['data'][$table])){
+			$this->__data['data'][$table] = new PopHbaseTable($this->hbase,$table);
+		}
+		return $this->__data['data'][$table];
 	}
 
 }

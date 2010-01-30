@@ -7,3 +7,7 @@ port = 8080
 
 # Http keep alive connection default to false
 alive = 
+
+# Outout verbose information to stdout (or a file if value is a string) 
+# about HTTP traffic (used by PopHbaseConnectionCurl)
+verbose = 

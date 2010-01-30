@@ -9,21 +9,20 @@
 require_once dirname(__FILE__).'/../PopHbaseTestCase.php';
 
 /**
- * Test the PopHbaseTables countable interface.
+ * Test the PopHbaseTables->exists method.
  * 
  * @author		David Worms info(at)adaltas.com
  *
  */
-class TablesCountableTest extends PopHbaseTestCase{
+class TablesExistsTest extends PopHbaseTestCase{
 	public function testCount(){
 		$hbase = $this->hbase;
 		// Test with no table
 		$tables = $hbase->tables();
-		$this->assertSame(0,count($tables));
-		// Test with one table
-//		$hbase->tables->create('pop_hbase');
-//		$this->assertSame(1,count($tables));
-//		$this->assertTrue($tables->current() instanceof PopHbaseTable);
-//		$hbase->tables->delete('pop_hbase');
+		// Test with our custum table
+		$this->assertFalse($hbase->tables->exists('pop_hbase_exists'));
+		$hbase->tables->create('pop_hbase_exists','my_column');
+		$this->assertTrue($hbase->tables->exists('pop_hbase_exists'));
+		$hbase->tables->delete('pop_hbase_exists');
 	}
 }

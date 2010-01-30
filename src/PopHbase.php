@@ -16,6 +16,13 @@ class PopHbase{
 	public $options;
 	
 	public function __construct($options){
+		if(empty($options['connection'])){
+			$options['connection'] = 'PopHbaseConnectionCurl';
+		}else if (class_exists('PopHbaseConnection'.ucfirst($options['connection']))){
+			$options['connection'] = 'PopHbaseConnection'.ucfirst($options['connection']);
+		}else if (!class_exists($options['connection'])){
+			throw new Exception('Invalid connection class: "'.$options['connection'].'"');
+		}
 		$this->options = $options;
 	}
 	
@@ -29,7 +36,7 @@ class PopHbase{
 	public function __get($property){
 		switch($property){
 			case 'connection':
-				return $this->connection = new PopHbaseConnectionSock($this->options);
+				return $this->connection = new $this->options['connection']($this->options);
 				break;
 			case 'tables':
 				return $this->getTables();
@@ -81,6 +88,18 @@ class PopHbase{
 	 */
 	public function getStatusCluster(){
 		return $this->request->get('status/cluster')->getBody();
+	}
+	
+	
+	/**
+	 * Shortcut to the "PopHbaseTables->table" method.
+	 * 
+	 * Usage
+	 *     assert($hbase->table('my_table') instanceof PopHbaseTable);
+	 * 
+	 */
+	public function table($table){
+		return $this->tables->table($table);
 	}
 
 }

@@ -28,25 +28,6 @@ interface PopHbaseConnection{
 	public function __construct(array $options = array());
 	
 	/**
-	 * Open the connection to the HBase server.
-	 * 
-	 * @return PopHbaseConnection Current connection instance
-	 */
-	public function connect();
-	
-	/**
-	 * Destruct the current instance and close its connection if opened.
-	 */
-	public function destruct();
-	
-	/**
-	 * Close the connection to the HBase server.
-	 * 
-	 * @return PopHbaseConnection Current connection instance
-	 */
-	public function disconnect();
-	
-	/**
 	 * Send HTTP REST command.
 	 * 
 	 * @return PopHbaseResponse Response object parsing the HTTP HBase response.

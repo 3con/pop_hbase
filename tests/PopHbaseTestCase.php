@@ -46,12 +46,9 @@ abstract class PopHbaseTestCase extends PHPUnit_Framework_TestCase{
 		return $this->hbase = new PopHbase($this->config);
 	}
 	public function setUp(){
-//		foreach($this->hbase->tables as $table){
-//			if(substr($table->name,0,9)=='pop_hbase'){
-//				$table->delete();
-//			}
-//		}
-//		$this->hbase->tables->reload();
+		if(!$this->hbase->tables->exists('pop_hbase')){
+			$this->hbase->tables->create('pop_hbase','column_test');
+		}
 	}
 	public function tearDown(){
 	}

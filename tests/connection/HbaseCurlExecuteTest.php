@@ -9,15 +9,17 @@
 require_once dirname(__FILE__).'/../PopHbaseTestCase.php';
 
 /**
- * Test the PopHbase->getVersion method.
+ * Test the add method.
  * 
  * @author		David Worms info(at)adaltas.com
  *
  */
-class HbaseGetVersionTest extends PopHbaseTestCase{
+class HbaseCurlExecuteTest extends PopHbaseTestCase{
 	public function testReturn(){
-		$hbase = new PopHbase($this->config);
-		$version = $hbase->getVersion();
+		$connection = new PopHbaseConnectionCurl($this->config);
+		$version = $connection->execute('get','version')->getBody();
+		$this->assertTrue(is_array($version));
 		$this->assertSame(array('Stargate','Server','OS','JVM','Jersey'),array_keys($version));
+		
 	}
 }

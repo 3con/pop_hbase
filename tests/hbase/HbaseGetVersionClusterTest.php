@@ -9,7 +9,7 @@
 require_once dirname(__FILE__).'/../PopHbaseTestCase.php';
 
 /**
- * Test the add method.
+ * Test the PopHbase->getVersionCluster method.
  * 
  * @author		David Worms info(at)adaltas.com
  *

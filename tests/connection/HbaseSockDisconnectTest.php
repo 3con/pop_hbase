@@ -14,7 +14,7 @@ require_once dirname(__FILE__).'/../PopHbaseTestCase.php';
  * @author		David Worms info(at)adaltas.com
  *
  */
-class ConnectionDisconnectTest extends PopHbaseTestCase{
+class HbaseSockDisconnectTest extends PopHbaseTestCase{
 	public function testReturn(){
 		$connection = new PopHbaseConnectionSock($this->config);
 		// When not connected

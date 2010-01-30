@@ -14,7 +14,7 @@ require_once dirname(__FILE__).'/../PopHbaseTestCase.php';
  * @author		David Worms info(at)adaltas.com
  *
  */
-class ConnectionConnectTest extends PopHbaseTestCase{
+class HbaseSockConnectTest extends PopHbaseTestCase{
 	public function testReturn(){
 		$connection = new PopHbaseConnectionSock($this->config);
 		$this->assertSame($connection,$connection->connect());

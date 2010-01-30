@@ -21,11 +21,24 @@ class PopHbaseTable{
 		$this->name = $name;
 	}
 	
-	public function delete(){
-		$body = $this->hbase->request->delete('/'.$this->name)->body;
-//		$this->hbase->tables->reload();
-//		unset($this->hbase->tables->{$this->name});
+	public function create(){
+		call_user_func_array(
+			array($this->hbase->tables,'create'),
+			array_merge(array($this->name),func_get_args()));
 		return $this;
+	}
+	
+	public function delete(){
+		$this->hbase->tables->delete($this->name);
+		return $this;
+	}
+	
+	public function exists(){
+		return $this->hbase->tables->exists($this->name);
+	}
+	
+	public function row($key){
+		return new PopHbaseRow($this->hbase,$this->name,$key);
 	}
 
 }
