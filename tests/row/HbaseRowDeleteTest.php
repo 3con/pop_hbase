@@ -14,17 +14,16 @@ require_once dirname(__FILE__).'/../PopHbaseTestCase.php';
  * @author		David Worms info(at)adaltas.com
  *
  */
-class HbaseRowGetTest extends PopHbaseTestCase{
-	public function testUndefinedColumn(){
+class HbaseRowDeleteTest extends PopHbaseTestCase{
+	public function testRow(){
 		$hbase = $this->hbase;
 		// Test with undefined value
-		$row = $hbase->tables->pop_hbase->row('row_test_count_1');
-		$value = $row->get('column_test:get_undefined_my_column');
-		$this->assertNull($value);
-		// Test with inserted value
 		$value = 'my_value_'.time();
+		$row = $hbase->tables->pop_hbase->row('row_test_count_1');
 		$row->put('column_test:my_column',$value);
 		$this->assertSame($value,$row->get('column_test:my_column'));
-		$this->assertSame($value,$row->{'column_test:my_column'});
+		// Now test the delete method
+		$row->delete();
+		$this->assertNull($row->get('column_test:my_column'));
 	}
 }

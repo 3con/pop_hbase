@@ -15,7 +15,7 @@ require_once dirname(__FILE__).'/../PopHbaseTestCase.php';
  *
  */
 class HbaseRowPutTest extends PopHbaseTestCase{
-	public function testCount(){
+	public function testPut(){
 		$hbase = $this->hbase;
 		$value = 'my_value_'.time();
 		$row = $hbase->tables->pop_hbase->row('row_test_count_1');

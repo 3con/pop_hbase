@@ -1,7 +1,7 @@
 Table operations: List, create, modify and delete HBase tables
 ==============================================================
 
-Those operations are handled by the class "PopHbaseTable" which can be retrieved from an instance of "PopHbase" through the "tables" property.
+Those operations are handled by the classes "PopHbaseTables" and "PopHbaseTable" which can be retrieved from an instance of "PopHbase" through the "tables" property.
 
 Grab an instance of "PopHbaseTables"
 ------------------------------------
@@ -9,6 +9,21 @@ Grab an instance of "PopHbaseTables"
 	$tables = $hbase->tables;
 	assert($tables instanceof PopHbaseTables);
 	assert($tables === $hbase->tables);
+
+Grab an instance of "PopHbaseTable"
+------------------------------------
+
+	// The shorter way from "PopHbase"
+	$myTable = $hbase->table('my_table');
+	assert($myTable instanceof PopHbaseTable);
+	
+	// Through the "PopHbaseTables->table" method
+	assert($hbase->tables->table('my_table) instanceof PopHbaseTable);
+	assert($hbase->tables->table('my_table) === $myTable);
+
+	// The magick way from "PopHbaseTables"
+	assert($hbase->tables->my_table instanceof PopHbaseTable);
+	assert($hbase->tables->my_table === $myTable);
 
 List tables names in HBase
 --------------------------

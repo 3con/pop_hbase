@@ -21,6 +21,10 @@ class PopHbaseTable{
 		$this->name = $name;
 	}
 	
+	public function __get($row){
+		return $this->row($row);
+	}
+	
 	public function create(){
 		call_user_func_array(
 			array($this->hbase->tables,'create'),
@@ -37,8 +41,8 @@ class PopHbaseTable{
 		return $this->hbase->tables->exists($this->name);
 	}
 	
-	public function row($key){
-		return new PopHbaseRow($this->hbase,$this->name,$key);
+	public function row($row){
+		return new PopHbaseRow($this->hbase,$this->name,$row);
 	}
 
 }
