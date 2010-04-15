@@ -20,12 +20,17 @@ class PopHbaseConnectionCurl implements PopHbaseConnection{
 	 * 
 	 * Options may include:
 	 * -   *host*
-	 *	 Hbase server host, default to "localhost"
+	 *     Hbase server host, default to "localhost"
 	 * -   *port*
-	 *	 Hbase server port, default to "5984"
+	 *     Hbase server port, default to "5984"
 	 * 
-	 * @param $options
-	 * @return unknown_type
+	 * Accorging to Stargate API:
+	 *     ./bin/hbase org.apache.hadoop.hbase.stargate.Main -p <port>
+	 *     ./bin/hbase-daemon.sh start org.apache.hadoop.hbase.stargate.Main -p <port>
+	 * Where <port> is optional, and is the port the connector should listen on. (Default is 8080.)
+	 * 
+	 * @param $options array Connection information
+	 * @return null
 	 */
 	public function __construct(array $options = array()){
 		if(!isset($options['host'])){

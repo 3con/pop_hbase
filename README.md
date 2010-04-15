@@ -7,7 +7,7 @@ Its features include:
 
 -   *Server information:* version, status and cluster information
 -   *Table manipulations:* list, create, modify and delete
--   *Row mipulation:* Create, update, retrieve
+-   *Row access:* Create, update, retrieve
 
 The source code has been tested agains PHP 5.2.x and PHP 5.3.x versions, however, it should also run on PHP 5.1.x versions.
 

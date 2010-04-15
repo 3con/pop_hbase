@@ -9,7 +9,7 @@
 require_once dirname(__FILE__).'/../PopHbaseTestCase.php';
 
 /**
- * Test the PopHbaseTables->create method.
+ * Test the PopHbaseTables->names method.
  * 
  * @author		David Worms info(at)adaltas.com
  *

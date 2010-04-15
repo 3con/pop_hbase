@@ -16,6 +16,16 @@ class PopHbaseRow{
 	public $hbase;
 	public $key;
 	
+	/**
+	 * Contruct a new row instance.
+	 * 
+	 * The identified row does not have to be yet persisted in HBase, it
+	 * will automatically be created if not yet present.
+	 * 
+	 * @param PopHbase $hbase
+	 * @param string $table
+	 * @param string $key
+	 */
 	public function __construct(PopHbase $hbase,$table,$key){
 		$this->hbase = $hbase;
 		$this->table = $table;

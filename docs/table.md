@@ -13,7 +13,7 @@ Grab an instance of "PopHbaseTables"
 Grab an instance of "PopHbaseTable"
 ------------------------------------
 
-	// The shorter way from "PopHbase"
+	// Directly from the "PopHbase" instance
 	$myTable = $hbase->table('my_table');
 	assert($myTable instanceof PopHbaseTable);
 	
@@ -25,10 +25,10 @@ Grab an instance of "PopHbaseTable"
 	assert($hbase->tables->my_table instanceof PopHbaseTable);
 	assert($hbase->tables->my_table === $myTable);
 
-List tables names in HBase
+List table names in HBase
 --------------------------
 
-The "PopHbaseTables->names" method takes no argument and return a list of tables names. The term "list" being a reserved keywords in PHP, we used the term "names" to call this method.
+The "PopHbaseTables->names" method takes no argument and return a list of table names. The term "list" being a reserved keywords in PHP, we used the term "names" to call this method.
 
 	$tables = $hbase->tables->names();
 	foreach($tables as $table){
@@ -52,15 +52,17 @@ Count the number of table in HBase
 The "PopHbaseTables" class implement the PHP "Countable" interface so you can directly use the PHP "count" function while passing an instance of it as an argument.
 
 	$tables = $hbase->tables;
-	assert(is_int($tables));
+	assert(is_int($tables->count()));
+	assert(is_int(count($tables)));
 
 Create a new table in HBase
 ---------------------------
 
-The simplest way is to provide two string arguments. The first one is the table name and the second one is the column family name.
+The simplest way is to call the create method while providing two string arguments. The first one is the table name and the second one is the column family name.
 
-	$tables = $hbase->tables;
-	$tables->create("my_table","my_column_family");
+	$hbase->create("my_table","my_column_family");
+
+	$hbase->tables->create("my_table","my_column_family");
 
 For more control on the table and column family schema configuration, the argument may take the form of an associative array. The table argument must contain the key "name" and may also contain the keys "is_meta" and "is_root". The column family arguments must contain the key "name" and may also contain the keys  "blocksize", "bloomfilter", "blockcache", "compression", "length", "versions", "ttl" and "in_memory".
 
@@ -75,9 +77,10 @@ For more control on the table and column family schema configuration, the argume
 Drop an existing table from HBase
 ---------------------------------
 
-Disabling and drop of a table is achieved through the "delete" method.
+Disabling and dropping of a table is achieved through the "delete" method.
 
-	$tables = $hbase->tables;
-	$tables->delete('my_table');
+	$hbase->delete('my_table');
+
+	$hbase->tables->delete('my_table');
 	
 

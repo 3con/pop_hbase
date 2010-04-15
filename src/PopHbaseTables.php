@@ -70,6 +70,10 @@ class PopHbaseTables extends PopHbaseIterator{
 	 *         array('name'=>'column_2'),
 	 *         array('NAME'=>'column_3'),
 	 *         array('@NAME'=>'column_4',...);
+	 * 
+	 * @param $table string Name of the table to create
+	 * @param $column string Name of the column family to create
+	 * @return PopHbase Current instance
 	 */
 	public function create(){
 		$args = func_get_args();

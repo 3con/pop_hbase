@@ -15,7 +15,7 @@ class PopHbase{
 
 	public $options;
 	
-	public function __construct($options){
+	public function __construct($options=array()){
 		if(empty($options['connection'])){
 			$options['connection'] = 'PopHbaseConnectionCurl';
 		}else if (class_exists('PopHbaseConnection'.ucfirst($options['connection']))){
@@ -94,12 +94,36 @@ class PopHbase{
 	/**
 	 * Shortcut to the "PopHbaseTables->table" method.
 	 * 
-	 * Usage
-	 *     assert($hbase->table('my_table') instanceof PopHbaseTable);
+	 * See "PopHbaseTables->table" for usage information.
 	 * 
 	 */
 	public function table($table){
 		return $this->tables->table($table);
+	}
+	
+	/**
+	 * Shortcut to the "PopHbaseTables->create" method.
+	 * 
+	 * See "PopHbaseTables->create" for usage information.
+	 * 
+	 * @param $table string Name of the table to create
+	 * @param $column string Name of the column family to create
+	 * @return PopHbase Current instance
+	 */
+	public function create($table){
+		return call_user_func_array(array($this,'tables'),$args)->hbase;
+	}
+	
+	/**
+	 * Shortcut to the "PopHbaseTables->delete" method.
+	 * 
+	 * See "PopHbaseTables->delete" for usage information.
+	 * 
+	 * @param $table string Name of the table to delete
+	 * @return PopHbase Current instance
+	 */
+	public function delete($table){
+		return $this->tables->delete($table)->hbase;
 	}
 
 }
