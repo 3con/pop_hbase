@@ -17,13 +17,14 @@ require_once dirname(__FILE__).'/../PopHbaseTestCase.php';
 class TablesCountableTest extends PopHbaseTestCase{
 	public function testCount(){
 		$hbase = $this->hbase;
-		// Test with no table
+		// Count the number of tables
 		$tables = $hbase->tables();
-		$this->assertSame(0,count($tables));
-		// Test with one table
-//		$hbase->tables->create('pop_hbase');
-//		$this->assertSame(1,count($tables));
-//		$this->assertTrue($tables->current() instanceof PopHbaseTable);
-//		$hbase->tables->delete('pop_hbase');
+		$count = count($tables);
+		// Add a new table
+		$hbase->tables->create('pop_hbase_test1','column_family');
+		$this->assertSame($count+1,count($tables));
+		// Drop the table
+		$hbase->tables->delete('pop_hbase_test1');
+		$this->assertSame($count,count($tables));
 	}
 }
