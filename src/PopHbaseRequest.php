@@ -7,7 +7,7 @@
  */
 
 /**
- * Wrap an Hbase request
+ * Wrap HTTP REST requests
  *
  * @author		David Worms info(at)adaltas.com
  */
@@ -18,26 +18,46 @@ class PopHbaseRequest{
 	/**
 	 * Request constructor.
 	 * 
-	 * @param PopHbaseConnection required $connection
+	 * @param PopHbase required $hbase instance
 	 */
 	function __construct(PopHbase $hbase){
 		$this->hbase = $hbase;
 	}
 	
-	public function delete($url){
-		return $this->hbase->connection->execute('DELETE',$url);
+	/**
+	 * Create a DELETE HTTP request.
+	 * 
+	 * @return PopHbaseResponse Response object
+	 */
+	public function delete($command){
+		return $this->hbase->connection->execute('DELETE',$command);
 	}
 	
-	public function get($url){
-		return $this->hbase->connection->execute('GET',$url);
+	/**
+	 * Create a GET HTTP request.
+	 * 
+	 * @return PopHbaseResponse Response object
+	 */
+	public function get($command){
+		return $this->hbase->connection->execute('GET',$command);
 	}
 	
-	public function post($url,$data){
-		return $this->hbase->connection->execute('POST',$url,$data);
+	/**
+	 * Create a POST HTTP request.
+	 * 
+	 * @return PopHbaseResponse Response object
+	 */
+	public function post($command,$data){
+		return $this->hbase->connection->execute('POST',$command,$data);
 	}
 	
-	public function put($url,$data=null){
-		return $this->hbase->connection->execute('PUT',$url,$data);
+	/**
+	 * Create a PUT HTTP request.
+	 * 
+	 * @return PopHbaseResponse Response object
+	 */
+	public function put($command,$data=null){
+		return $this->hbase->connection->execute('PUT',$command,$data);
 	}
 
 }

@@ -20,7 +20,7 @@ class HbaseSockConnectTest extends PopHbaseTestCase{
 		$this->assertSame($connection,$connection->connect());
 		$version = $connection->execute('get','version')->getBody();
 		$this->assertTrue(is_array($version));
-		$this->assertSame(array('Stargate','Server','OS','JVM','Jersey'),array_keys($version));
+		$this->assertSame(array('Server','REST','OS','Jersey','JVM'),array_keys($version));
 		
 	}
 }

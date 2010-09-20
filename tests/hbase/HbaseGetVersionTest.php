@@ -18,6 +18,6 @@ class HbaseGetVersionTest extends PopHbaseTestCase{
 	public function testReturn(){
 		$hbase = new PopHbase($this->config);
 		$version = $hbase->getVersion();
-		$this->assertSame(array('Stargate','Server','OS','JVM','Jersey'),array_keys($version));
+		$this->assertSame(array('Server','REST','OS','Jersey','JVM'),array_keys($version));
 	}
 }

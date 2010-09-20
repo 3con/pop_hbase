@@ -22,7 +22,7 @@ class PopHbaseConnectionCurl implements PopHbaseConnection{
 	 * -   *host*
 	 *     Hbase server host, default to "localhost"
 	 * -   *port*
-	 *     Hbase server port, default to "5984"
+	 *     Hbase server port, default to "8080"
 	 * 
 	 * Accorging to Stargate API:
 	 *     ./bin/hbase org.apache.hadoop.hbase.stargate.Main -p <port>
@@ -37,7 +37,7 @@ class PopHbaseConnectionCurl implements PopHbaseConnection{
 			$options['host'] = 'localhost';
 		}
 		if(!isset($options['port'])){
-			$options['port'] = 5984;
+			$options['port'] = 8080;
 		}
 		if(!isset($options['alive'])){
 			$options['alive'] = 1;
