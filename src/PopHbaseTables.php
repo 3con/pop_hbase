@@ -60,7 +60,7 @@ class PopHbaseTables extends PopHbaseIterator{
 	/**
 	 * Create a new table and associated column families schema.
 	 * 
-	 * The first argument is expected to be the column name while the following
+	 * The first argument is expected to be the table name while the following
 	 * arguments describle column families.
 	 * 
 	 * Usage
